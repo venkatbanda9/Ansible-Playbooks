@@ -1,0 +1,10 @@
+---
+- name: create user
+  hosts: all
+  tasks:
+   - name: user creation
+     user:
+      name: venkat
+      password: $6$6ZWzl/URf$wtDQeO8Mt9uBgHvd/FuUa2qSrYsV0panxoF84ujN9FfsiYGJaa.p8FpPUQu0M/4pTyYfmbaXPc8.zSvfgSoMx1
+      shell: /bin/bash
+

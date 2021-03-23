@@ -1,0 +1,25 @@
+- name: Install and configure apache2
+  hosts: all
+  tasks:
+   - name: Install apache2 on all MNs
+     apt:
+      name: apache2
+      state: present
+      update_cache: yes
+   - name: edit landing page
+     copy:
+      content: 'welcome to changed index.html page'
+      dest: /var/www/html/index.html
+   - name: restart Apache2 service
+     service:
+      name: apache2
+      state: restarted
+   - name: ping to apache2 node1
+     uri:
+      url: http://52.203.81.241:80
+      status_code: 200
+   - name: ping to apache2 node2 
+     uri:
+      url: http://100.25.30.166:80
+      status_code: 200
+
