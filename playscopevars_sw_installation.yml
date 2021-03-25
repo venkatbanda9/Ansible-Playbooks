@@ -1,0 +1,31 @@
+---
+- name: installation using playscope vars
+  hosts: all
+  vars:
+    - name_value: nginx
+    - state_value: present
+    - update_cache_value: yes
+    - purge_value: no
+  tasks:
+    - name: install start
+      apt:
+       name: "{{name_value}}"
+       state: "{{state_value}}"
+       update_cache: "{{update_cache_value}}"
+       purge: "{{purge_value}}"
+    - name: check ping to all nginx instaled servers 4*4
+      uri:
+        url: http://54.89.241.221
+        status_code: 200
+    - name: check ping to all nginx instaled servers 4*4
+      uri:
+       url: http://54.236.17.218
+       status_code: 200
+    - name: check ping to all nginx instaled servers 4*4
+      uri:
+       url: http://3.88.205.123
+       status_code: 200
+    - name: check ping to all nginx instaled servers 4*4
+      uri:
+       url: http://54.209.6.103
+       status_code: 200
