@@ -1,0 +1,10 @@
+---
+- name: user creation via global vars
+  hosts: all
+  tasks:
+   - name: creation module specs
+     user:
+      name: "{{user_name}}"
+      password: "{{ password | password_hash('sha512') }}"
+      shell: /bin/bash/
+      home: "{{home_dir}}"       

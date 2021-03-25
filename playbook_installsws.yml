@@ -1,0 +1,15 @@
+---
+- name: install sws
+  hosts: all
+  tasks:
+   - name: install sws
+     apt:
+      name: "{{name}}"
+      state: "{{state}}"
+      update_cache: "{{update_cache}}"
+      purge: "{{input}}"
+   - name: check the installation
+     command: "{{command}}"
+     register: sqs_list
+   - debug: 
+        msg: "{{ sqs_list.stdout_lines|list }}"
