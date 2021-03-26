@@ -1,0 +1,6 @@
+---
+name: [git, maven]
+state: present
+update_cache: yes
+...
+

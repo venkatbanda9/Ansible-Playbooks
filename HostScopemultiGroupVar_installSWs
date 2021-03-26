@@ -1,0 +1,40 @@
+---
+- name: install apache2 on webserver
+  hosts: webserver
+  tasks:
+    - name: install apache2 on webserver group
+      apt:
+        name: "{{name}}"
+        state: "{{state}}"
+        update_cache: "{{update_cache}}"
+- name: install tomcat9 and java on appserver
+  hosts: appserver
+  tasks:
+    - name: installing tomcat9 on appserver
+      apt:
+        name: "{{name}}"
+        state: "{{state}}"
+        update_cache: "{{update_cache}}"
+    - name: copy tomcat-users.xml to appservers
+      copy:
+        src: tomcat-users.xml
+        dest: /etc/tomcat9
+- name: install git and maven and get details of installed versions
+  hosts: allservers
+  tasks:
+    - name: install apps
+      apt:
+        name: "{{name}}"
+        state: "{{state}}"
+        update_cache: "{{update_cache}}"
+    - name: check status and get details of version git
+      command: "git --version"
+      register: sqs_list
+      - debug:
+        msg: "{{ sqs_list.stdout_lines|list }}"
+    - name: check status and get details of version of maven
+      command: "mvn --version"
+      register: sqs_list
+      - debug:
+        msg: "{{ sqs_list.stdout_lines|list }}"
+

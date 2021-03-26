@@ -1,0 +1,10 @@
+---
+- name: install different app and web and sql servers on different host groups
+  hosts: appserver
+  tasks:
+    - name: install apache2 on webserver group
+      apt:
+        name: "{{name}}"
+        state: "{{state}}"
+        update_cache: "{{cache}}"
+...

@@ -1,0 +1,5 @@
+---
+name: [tomcat9, tomcat9-admin, openjdk-8-jdk]
+state: present
+cache: yes
+...
