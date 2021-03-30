@@ -1,0 +1,41 @@
+---
+- name: environment creation of Jenkins
+  hosts: Jenkins
+  tasks:
+   - name: install git maven and jdk8
+     apt:
+      name: "{{item}}"
+      state: present
+      update_cache: yes
+     with_items:
+       - git
+       - maven
+       - openjdk-8-jdk
+   - name: download jenkins
+     get_url:
+      url: https://get.jenkins.io/war-stable/2.277.1/jenkins.war
+      dest: /tmp/
+   - name: start Jenkins
+     shell: nohup java -jar /tmp/jenkins.war &
+- name: Install tomcat9 and required s/w's
+  hosts: tomcat
+  tasks:
+   - name: Install tomcat9 and tomcat9-admin
+     apt:
+      name: "{{item.a}}"
+      state: present
+      update_cache: "{{item.b}}"
+     with_items:
+      - {a: tomcat9,b: yes}
+      - {a: tomcat9-admin,b: no}
+   - name: Copy tomcat-users.xml file
+     copy:
+      src: tomcat-users.xml
+      dest: /etc/tomcat9
+   - name: Restart tomcat
+     service:
+      name: tomcat9
+      state: restarted
+...
+
+
