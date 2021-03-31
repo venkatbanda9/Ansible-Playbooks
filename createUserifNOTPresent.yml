@@ -1,0 +1,12 @@
+---
+- name: create user if not present
+  hosts: all
+  tasks:
+   - block:
+      - name: check for presence of user
+        shell: cut -d ":" -f 1 /etc/passwd | grep "{{username}}"
+     rescue:
+      - name: create user
+        user:
+         name: "{{username}}"
+         password: "{{password}}"
