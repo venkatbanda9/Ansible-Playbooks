@@ -5,7 +5,7 @@
    - name: install git maven and jdk8
      apt:
       name: "{{item}}"
-      state: present
+      state: "{{state}}"
       update_cache: yes
      with_items:
        - git
@@ -23,7 +23,7 @@
    - name: Install tomcat9 and tomcat9-admin
      apt:
       name: "{{item.a}}"
-      state: present
+      state: "{{state}}"
       update_cache: "{{item.b}}"
      with_items:
       - {a: tomcat9,b: yes}

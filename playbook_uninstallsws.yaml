@@ -1,0 +1,23 @@
+---
+- name: install sws
+  hosts: all
+  tasks:
+   - name: uninstall sws
+     apt:
+      name: [git, maven, tomcat9, tomcat9-admin, openjdk-8-jdk, apache2, nginx]
+      state: absent
+      update_cache: yes
+      purge: yes
+   - name: uninstall and purge and autoremove using shell module
+     shell: sudo apt-get purge "{{item}}"
+     with_items:
+      - git
+      - maven
+      - openjdk-8-jdk
+      - tomcat9
+      - tomcat9-admin
+      - apache2
+      - nginx
+   - name: autoremove
+     shell: sudo apt-get autoremove -y
+...
