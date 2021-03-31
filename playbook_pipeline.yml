@@ -1,0 +1,57 @@
+---
+- name: install required softwares
+  hosts: all
+  tasks:
+    - name: install sws
+      apt:
+       name: "{{item.a}}"
+       state: present
+       update_cache: "{{item.b}}"
+      with_items:
+        - {a: git, b: yes}
+        - {a: maven, b: no}
+        - {a: openjdk-8-jdk, b: no}
+        - {a: tomcat9, b: no}
+        - {a: tomcat9-admin, b: no }
+- name: Continuous Download and Build
+  hosts: DevServer
+  tasks:
+    - name: Continuous Download
+      git:
+       repo: https://github.com/venkatbanda9/MyJavaApp.git
+       dest: /tmp/app
+    - name: Cont Build
+      shell: cd /tmp/app; mvn package
+    - name: transfer build
+      fetch:
+       src: /tmp/app/webapp/target/webapp.war
+       dest: /tmp
+- name: Deploy to QA and testing
+  hosts: QAServer
+  tasks:
+   - name: copy war to tomcat9 on QA
+     copy:
+      src: /tmp/172.31.91.150/tmp/app/webapp/target/webapp.war
+      dest: /var/lib/tomcat9/webapps/testapp.war
+   - name: restart tomcat9
+     service:
+      name: tomcat9
+      state: restarted
+   - name: Download testing scripts
+     git:
+      repo: https://github.com/intelliqittrainings/FunctionalTesting.git
+      dest: /tmp/testing
+   - name: exec selenium scripts
+     shell: java -jar /tmp/testing/testing.jar
+- name: Deploy/Deliver to Prod
+  hosts: ProdServer
+  tasks:
+   - name: copy artifact to Prodserver tomcat
+     copy:
+      src: /tmp/172.31.91.150/tmp/app/webapp/target/webapp.war
+      dest: /var/lib/tomcat9/webapps/prodapp.war
+   - name: restart tomcat9
+     service:
+      name: tomcat9
+      state: restarted
+
