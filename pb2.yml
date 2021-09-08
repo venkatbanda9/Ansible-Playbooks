@@ -1,0 +1,25 @@
+---
+- name: config tomcat9
+  hosts: all
+  tasks:
+   - name: installing tomcat9
+     apt: 
+      name: tomcat9
+      state: present
+      update_cache: yes
+
+   - name: edit index.html file
+     copy:
+      content: '<h1>VENKAT</h1>'
+      dest: /var/lib/tomcat9/webapps/ROOT/index.html
+
+   - name: restart tomcat9
+     service:
+      name: tomcat9
+      state: started
+
+   - name: check response
+     uri:
+      url: http://3.91.189.185:8080
+      status_code: 200
+
