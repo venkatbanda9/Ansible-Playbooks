@@ -12,11 +12,21 @@
      copy:
       content: '<h1>VENKAT</h1>'
       dest: /var/lib/tomcat9/webapps/ROOT/index.html
+   
+   - name: change default port to 9090
+     replace:
+      regexp: 8080
+      replace: 9090
+      path: /etc/tomcat9/server.xml
 
    - name: restart tomcat9
      service:
       name: tomcat9
       state: started
+
+   - name: pause for 2mins
+     pause:
+      minutes: 2
 
    - name: check response
      uri:
