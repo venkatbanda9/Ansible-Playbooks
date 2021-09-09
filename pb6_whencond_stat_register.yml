@@ -1,0 +1,17 @@
+---
+- name: check if dir is available
+  hosts: all
+  tasks:
+   - name: check using stat
+     stat:
+      path: /home/ubuntu/f1
+     register: a
+   - name: display output
+     debug:
+      var: a
+
+   - name: create folder if not present
+     file:
+      name: f1
+      state: directory
+     when: a.stat.exists==false
