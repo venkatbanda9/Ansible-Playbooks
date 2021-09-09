@@ -1,0 +1,14 @@
+---
+- name: install/uninstall sws
+  hosts: all
+  vars:
+   - a: tomcat9
+   - b: absent
+   - c: yes
+  tasks:
+   - name: task performing
+     apt:
+      name: "{{a}}"
+      state: "{{b}}"
+      update_cache: "{{c}}"
+...

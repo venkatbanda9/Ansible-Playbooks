@@ -1,0 +1,25 @@
+---
+- name: install sws
+  hosts: all
+  tasks:
+   - name: installstion loop
+     apt:
+      name: ["tree", "maven"]
+      state: present
+      update_cache: no
+
+- name: uninstall above sws
+  hosts: all
+  tasks:
+   - name: uninstalling
+     apt:
+      name: "{{item.a}}"
+      state: "{{item.b}}"
+      update_cache: "{{item.c}}"
+      purge: yes
+     with_items:
+      - {a: tree, b: absent, c: no}
+      - {a: git, b: absent, c: no}
+      - {a: maven, b: absent, c: no}
+...
+

@@ -1,0 +1,12 @@
+---
+- name: user creation
+  hosts: dbserver
+  tasks:
+   - name: user creating
+     user:
+      name: "{{a}}"
+      password: "{{b}}"
+      uid: "{{c}}"
+      comment: "{{d}}"
+      home: "{{e}}"
+      shell: "{{f}}"
